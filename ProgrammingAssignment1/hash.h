@@ -62,7 +62,7 @@ class hashTable {
         };
 
         int capacity; // The current capacity of the hash table.
-        int filled; // Number of occupied items in the table.
+        int filled{}; // Number of occupied items in the table.
 
         std::vector<hashItem> data; // The actual entries are here.
 
