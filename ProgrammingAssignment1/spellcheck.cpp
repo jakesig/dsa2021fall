@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm>
+#include "hash.h"
 
 using namespace std;
 
@@ -11,17 +13,18 @@ string getFileName() {
     return fileDir;
 }
 
-void readDictionary(ifstream& dictFile) {
+void readDictionary(ifstream& dictFile, hashTable *dict) {
     string read;
 
     while (getline(dictFile, read)) {
-        //cout << "PROCESSED: " << read << "\n";
+        transform(read.begin(), read.end(), read.begin(), [](char c){ return tolower(c); });
+        dict -> insert(read);
     }
 
     dictFile.close();
 }
 
-void readFile(ifstream& inFile, ofstream& outFile) {
+void spellCheck(ifstream& inFile, ofstream& outFile) {
     string read;
 
     /** Main loop for reading each line of the input file.
@@ -29,6 +32,8 @@ void readFile(ifstream& inFile, ofstream& outFile) {
 
     while (getline(inFile, read)) {
         //cout << "PROCESSED: " << read << "\n";
+        transform(read.begin(), read.end(), read.begin(), [](char c){ return tolower(c); });
+
     }
 
     inFile.close();
@@ -37,17 +42,26 @@ void readFile(ifstream& inFile, ofstream& outFile) {
 
 
 int main() {
-    ofstream outFile;
-    ifstream inFile;
     ifstream dictFile;
+    ifstream inFile;
+    ofstream outFile;
+    clock_t initial;
+    clock_t final;
+    double time;
+    auto *dict = new hashTable(1000);
 
-    cout << "Output";
-    outFile.open(getFileName());
-    cout << "Input";
-    inFile.open(getFileName());
     cout << "Dictionary";
     dictFile.open(getFileName());
+    initial = clock();
+    readDictionary(dictFile, dict);
+    final = clock();
+    time = (double) (final-initial);
+    cout << "Total time (in seconds) to load dictionary: " << time << "\n";
 
-    readDictionary(dictFile);
-    readFile(inFile, outFile);
+    cout << "Input";
+    inFile.open(getFileName());
+    cout << "Output";
+    outFile.open(getFileName());
+
+    spellCheck(inFile, outFile);
 }
