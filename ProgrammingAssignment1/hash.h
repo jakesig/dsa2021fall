@@ -8,77 +8,123 @@ class hashTable {
 
     public:
 
-        // The constructor initializes the hash table.
-        // Uses getPrime to choose a prime number at least as large as
-        // the specified size for the initial size of the hash table.
+        /** hashTable(): Initializes hash table.
+         *  Uses getPrime to choose a prime number at least as large as
+         *  the specified size for the initial size of the hash table.
+         *
+         *  @param {int} size - The initial size of the hash table.
+         */
+
         hashTable(int size = 0);
 
-        // Insert the specified key into the hash table.
-        // If an optional pointer is provided,
-        // associate that pointer with the key.
-        // Returns 0 on success,
-        // 1 if key already exists in hash table,
-        // 2 if rehash fails.
+        /** insert(): Insert the specified key into the hash table.
+         *  If an optional pointer is provided, associate that pointer
+         *  with the key.
+         *
+         *  @param {string} key - The key to be inserted.
+         *  @param {void} pv - Optional pointer to associate with key.
+         *  @return {int} - 0 on success, 1 if key exists, 2 if rehash fails.
+         */
+
         int insert(const std::string &key, void *pv = nullptr);
 
-        // Check if the specified key is in the hash table.
-        // If so, return true; otherwise, return false.
+        /** contains(): Check if the specified key is in the hash table.
+         *
+         *  @param {string} key - The key to search for.
+         *  @return {bool} - true if key is in hash table, false otherwise.
+         */
+
         bool contains(const std::string &key);
 
-        // Get the pointer associated with the specified key.
-        // If the key does not exist in the hash table, return nullptr.
-        // If an optional pointer to a bool is provided,
-        // set the bool to true if the key is in the hash table,
-        // and set the bool to false otherwise.
+        /** getPointer(): Gets the pointer associated with the specified key.
+         *
+         *  @param {string} key - Key to get pointer from.
+         *  @param {bool} b - Optional bool to be modified, true if key is in hash table, false otherwise.
+         *  @return {void *} - Pointer associated with key, nullptr if no such pointer exists.
+         */
+
         void *getPointer(const std::string &key, bool *b = nullptr);
 
-        // Set the pointer associated with the specified key.
-        // Returns 0 on success,
-        // 1 if the key does not exist in the hash table.
+        /** setPointer(): Sets the pointer associated with the specified key.
+         *
+         *  @param {string} key - Key to associate pointer with.
+         *  @param {void *} pv - Pointer to associate key with.
+         *  @return {int} - 0 on success, 1 if key does not exist in hash table.
+         */
+
         int setPointer(const std::string &key, void *pv);
 
-        // Delete the item with the specified key.
-        // Returns true on success,
-        // false if the specified key is not in the hash table.
+        /** remove(): Deletes item with the specified key.
+         *
+         *  @param {string} key - Key to delete item from.
+         *  @return {bool} - true on success, false if key does not exist in hash table.
+         */
+
         bool remove(const std::string &key);
 
     private:
 
-        // Each item in the hash table contains:
-        // key - a string used as a key.
-        // isOccupied - if false, this entry is empty,
-        //              and the other fields are meaningless.
-        // isDeleted - if true, this item has been lazily deleted.
-        // pv - a pointer related to the key;
-        //      nullptr if no pointer was provided to insert.
-        class hashItem {
-        public:
-            std::string key {""};
-            bool isOccupied {false};
-            bool isDeleted {false};
-            void *pv {nullptr};
+        /** hashItem subclass
+         */
 
-            hashItem() = default;
+        class hashItem {
+
+            /** Public variables for hashItem:
+             *  key - string used as a key.
+             *  isOccupied - if false, the hashItem is empty.
+             *  isDeleted - if true, this item has been lazily deleted.
+             *  pv - a pointer related to the key; nullptr if no key provided.
+             */
+
+            public:
+                std::string key {""};
+                bool isOccupied {false};
+                bool isDeleted {false};
+                void *pv {nullptr};
+                hashItem() = default;
+
         };
 
-        int capacity; // The current capacity of the hash table.
-        int filled{}; // Number of occupied items in the table.
+        /** Private variables for hashTable:
+         *  capacity - Contains the current capacity of the hash table.
+         *  filled - Contains the number of occupied items in the hash table.
+         *  data - The actual entries of the hash table.
+         */
 
-        std::vector<hashItem> data; // The actual entries are here.
+        int capacity;
+        int filled{};
+        std::vector<hashItem> data;
 
-        // The hash function.
+        /** hash(): The hash function.
+         *
+         *  @param {string} key - The key to hash.
+         *  @return {int} - The hashed value of the key.
+         */
+
         int hash(const std::string &key);
 
-        // Search for an item with the specified key.
-        // Return the position if found, -1 otherwise.
+        /** findPos(): Search for an item with the specified key.
+         *
+         *  @param {string} key - The key to search for.
+         *  @return {int} - Position if found, -1 otherwise.
+         */
+
         int findPos(const std::string &key);
 
-        // The rehash function; makes the hash table bigger.
-        // Returns true on success, false if memory allocation fails.
+        /** rehash(): Makes the hash table bigger.
+         *
+         *  @return {bool} - true if success, false otherwise.
+         */
+
         bool rehash();
 
-        // Return a prime number at least as large as size.
-        // Uses a precomputed sequence of selected prime numbers.
+        /** getPrime(): Return a prime number at least as large as size.
+         *  Uses a precomputed sequence of selected prime numbers.
+         *
+         *  @param {int} size - The size of the hash table.
+         *  @return {unsigned int} - A prime number at least as large as size.
+         */
+
         static unsigned int getPrime(int size);
 };
 
