@@ -48,11 +48,11 @@ vector<string> split(string str, string delim) {
     while (pos < str.length()) {
         word = str.substr(0, pos);
 
-        /** Parse the word, removing any characters that can end a line.
+        /** Parse the word, removing any characters considered word separators.
          */
 
         for (char c : word) {
-            if (c == '.' || c == '?' || c == '!' || c == ',')
+            if (c != '-' && c != '\'' && !(c >= 97 && c <= 122) && !(c >= 48 && c<= 57))
                 word = word.substr(0, word.find(c));
         }
 
