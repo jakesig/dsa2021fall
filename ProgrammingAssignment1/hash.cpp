@@ -1,3 +1,12 @@
+/** Jacob Sigman
+ *  Programming Assignment 1
+ *  Professor Sable
+ *  hash.cpp
+ *
+ *  This code implements a hash table, containing all
+ *  the implemented functions from the hash.h file.
+ */
+
 #include <vector>
 #include <string>
 #include "hash.h"
@@ -188,14 +197,27 @@ int hashTable::findPos(const std::string &key) {
  */
 
 bool hashTable::rehash() {
+
+    /** If the final value of primes has been reached,
+     *  don't rehash.
+     */
+
     if (capacity == getPrime(capacity))
         return false;
+
+    /** Get a new capacity, save all the data in a
+     *  different vector, then resize the data vector.
+     */
 
     capacity = getPrime(capacity);
     vector<hashItem> oldData = data;
     data.clear();
     data.resize(capacity);
     filled = 0;
+
+    /** Copy over all the old data into the new
+     *  resized data vector.
+     */
 
     for (hashItem item : oldData) {
         if (item.isOccupied)
@@ -213,8 +235,14 @@ bool hashTable::rehash() {
  */
 
 unsigned int hashTable::getPrime(int size) {
+
+    /** Parse through array of primes until one is found that is larger
+     *  than size. If nothing is found just return the last value in the
+     *  primes array.
+     */
+
     for (int i : primes)
-        if (i > size * 2)
+        if (i > size)
             return i;
 
     return primes[25];
