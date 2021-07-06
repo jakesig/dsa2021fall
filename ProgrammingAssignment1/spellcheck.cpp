@@ -55,7 +55,7 @@ int main() {
     initial = clock();
     readDictionary(dictFile, dict);
     final = clock();
-    time = (double) (final-initial);
+    time = ((double)(final-initial))/CLOCKS_PER_SEC;
     cout << "Total time (in seconds) to load dictionary: " << time << "\n";
 
     cout << "Input";

@@ -1,3 +1,13 @@
+/** Jacob Sigman
+ *  Programming Assignment 1
+ *  Professor Sable
+ *  hash.h
+ *
+ *  This code implements a hash table, containing all
+ *  the class information and functions to be implemented
+ *  in the hash.cpp file.
+ */
+
 #ifndef _HASH_H
 #define _HASH_H
 
