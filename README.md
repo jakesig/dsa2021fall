@@ -10,7 +10,7 @@
 
 
 ### Programming Assignment 1
-Description goes here.
+Implements a hash table. Then uses this implementation to read a "dictionary" and spell check a "document". 
 
 ### Programming Assignment 2
 Description goes here.
