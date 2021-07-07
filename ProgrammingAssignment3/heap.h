@@ -1,5 +1,5 @@
 /** Jacob Sigman
- *  Programming Assignment 2
+ *  Programming Assignment 3
  *  Professor Sable
  *  heap.h
  *
