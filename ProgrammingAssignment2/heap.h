@@ -3,7 +3,9 @@
  *  Professor Sable
  *  heap.h
  *
- *
+ *  This code implements a binary heap, containing all
+ *  the class information and functions to be implemented
+ *  in the heap.cpp file.
  */
 
 #include <string>
