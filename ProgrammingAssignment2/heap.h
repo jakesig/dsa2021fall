@@ -1,3 +1,11 @@
+/** Jacob Sigman
+ *  Programming Assignment 2
+ *  Professor Sable
+ *  heap.h
+ *
+ *
+ */
+
 #include <string>
 #include <vector>
 #include "hash.h"
@@ -87,8 +95,26 @@ class heap {
         std::vector<node> data;
         hashTable mapping;
 
+        /** percolateUp(): Shift all nodes upwards to ensure the heap is a Min Heap
+         *
+         *  @param {int} posCur - The current position.
+         */
+
         void percolateUp(int posCur);
+
+        /** percolateDown(): Shift all nodes downwards to ensure the heap is a Min Heap
+         *
+         *  @param {int} posCur - The current position.
+         */
+
         void percolateDown(int posCur);
+
+        /** getPos(): Gets the position of a node.
+         *
+         *  @param pn - Provided pointer to node.
+         *  @return {int} - The position of the provided node.
+         */
+
         int getPos(node *pn);
 
 };
