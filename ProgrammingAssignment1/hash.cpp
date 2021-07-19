@@ -219,10 +219,9 @@ bool hashTable::rehash() {
      *  resized data vector.
      */
 
-    for (hashItem item : oldData) {
+    for (hashItem item : oldData)
         if (item.isOccupied)
             insert(item.key, item.pv);
-    }
 
     return true;
 }
