@@ -17,27 +17,83 @@
 
 class graph {
 
+    public:
+
+        /** graph(): Constructor for the Graph.
+         */
+
+        graph();
+
+        /** readFile(): Reads file and creates corresponding graph.
+         *
+         *  @param {ifstream&} inFile - The file being read.
+         */
+
+        void readFile(std::ifstream& inFile);
+
+        /** insert(): Inserts edge using the two vertices and a distance stored in a vector.
+         *
+         *  @param {vector<string>} processedLine - The information of the edge to be inserted.
+         */
+
+        void insert(std::vector<std::string> processedLine);
+
+        /** dijkstra(): Performs Dijkstra's algorithm given a starting vertex.
+         *
+         *  @param {string} startID - The ID of the starting vertex.
+         */
+
+        void dijkstra(std::string &startID);
+
+        /** writeToFile(): Writes the output of Dijkstra's algorithm to specified
+         *  output file.
+         *
+         *  @param {string} startID - The ID of the starting vertex.
+         *  @param {ofstream&} outFile - The file to output to.
+         */
+
+        void writeToFile(std::string startID, std::ofstream& outFile);
+
     private:
+
+        /** vertex subclass
+         */
+
         struct vertex {
+
+            /** edge subclass
+             */
+
             struct edge {
+
+                /** Public variables for edge:
+                 *  next - A pointer to the next vertex.
+                 *  cost - The cost of the edge.
+                 */
+
                 vertex* next;
                 int cost;
             };
 
+            /** Public variables for vertex:
+             *  adjacencyList - A list of all connected edges.
+             *  known - Boolean used for Dijkstra's Algorithm.
+             *  distance - Calculated distance stored in vertex for Dijkstra's Algorithm.
+             *  id - A string associated with the vertex.
+             *  previous - Pointer to the previous vertex.
+             */
+
             std::list<edge> adjacencyList;
             bool known;
-            int cost;
+            int distance;
             std::string id;
             vertex* previous;
-
-            void insert(vertex* next, int cost);
         };
 
-    public:
-        graph(int capacity);
-        void readFile(std::ifstream& inFile);
-        void insert(std::vector<std::string> processedLine);
-        void dijkstra(vertex* start);
+        /** Private variables for graph:
+         *  data - List of vertices.
+         *  mapping - A hash table for the IDs of each vertex and the pointers to said vertices.
+         */
 
         std::list<vertex> data;
         hashTable* mapping;

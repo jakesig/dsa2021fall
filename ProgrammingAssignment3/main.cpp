@@ -1,4 +1,12 @@
-//
-// Created by jsigm on 7/7/2021.
-//
+/** Jacob Sigman
+ *  Programming Assignment 3
+ *  Professor Sable
+ *  main.cpp
+ *
+ *  Description goes here.
+ */
+
+int main() {
+
+}
 

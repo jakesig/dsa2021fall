@@ -15,9 +15,17 @@
 
 using namespace std;
 
-graph::graph(int capacity){
+/** graph(): Constructor for the Graph.
+ */
 
+graph::graph(){
+    mapping = new hashTable(1000000);
 }
+
+/** readFile(): Reads file and creates corresponding graph.
+ *
+ *  @param {ifstream&} inFile - The file being read.
+ */
 
 void graph::readFile(ifstream& inFile) {
     string read;
@@ -36,38 +44,141 @@ void graph::readFile(ifstream& inFile) {
 
         insert(processed);
     }
+
+    inFile.close();
 }
+
+/** insert(): Inserts edge using the two vertices and a distance stored in a vector.
+ *
+ *  @param {vector<string>} processedLine - The information of the edge to be inserted.
+ */
 
 void graph::insert(vector<string> processedLine) {
     vertex *start;
     vertex *end;
     vertex::edge startToEnd{};
+    bool v1;
+    bool v2;
+
+    /** For loop that runs twice, for each vertex provided in each line
+     *  of the input file. Initializes a new vertex if vertex is not
+     *  already in the hash table. Inserts an edge if both vertices exist.
+     */
 
     for (int i = 0; i < 2; ++i) {
-        if (!mapping->contains(processedLine[i])) {
+
+        /** Initialize a new vertex if it is not in the hash table.
+         */
+
+        if (!mapping -> contains(processedLine[i])) {
             vertex *temp;
-            temp->id = processedLine[i];
-            temp->known = false;
-            temp->cost = 0;
+            temp -> id = processedLine[i];
+            temp -> known = false;
+            temp -> distance = INT16_MAX;
             data.push_back(*temp);
-            mapping->insert(processedLine[i], temp);
+            mapping -> insert(processedLine[i], temp);
         }
+
         else {
-            auto *temp = (vertex *) mapping->getPointer(processedLine[i]);
+            auto *temp = (vertex *) mapping -> getPointer(processedLine[i]);
+
+            /** The first run is for the starting vertex, and the second run
+             *  is for the ending vertex. So set them accordingly.
+             */
 
             if (i == 0)
                 start = temp;
-
             if (i == 1)
                 end = temp;
         }
     }
 
-    startToEnd.next = end;
-    startToEnd.cost = stoi(processedLine[2]);
-    start -> adjacencyList.push_back(startToEnd);
+    /** Check that both vertices exist using the getPointer() function,
+     *  then insert a new edge.
+     */
+
+    mapping -> getPointer(processedLine[0], reinterpret_cast<bool *>(v1));
+    mapping -> getPointer(processedLine[0], reinterpret_cast<bool *>(v2));
+
+    if (v1 && v2) {
+        startToEnd.next = end;
+        startToEnd.cost = stoi(processedLine[2]);
+        start -> adjacencyList.push_back(startToEnd);
+    }
+
 }
 
-void graph::dijkstra(vertex *start) {
+/** dijkstra(): Performs Dijkstra's algorithm given a starting vertex.
+ *
+ *  @param {string} startID - The ID of the starting vertex.
+ */
 
+void graph::dijkstra(string &startID) {
+
+    /** A variable that keeps track of the vertex being removed from the heap along with
+     *  the heap itself.
+     */
+
+    vertex *removedVertex;
+    heap *dijkstraHeap = new heap(data.size());
+
+    /** Load the heap with all the vertices stored in the list
+     *  in the graph.
+     */
+
+    for (vertex v : data)
+        dijkstraHeap -> insert(v.id, v.distance, &v);
+
+    /** Constantly deleteMin from the heap, checking if there is a smaller distance.
+     *  If there is, alter the distance of the next vertex accordingly.
+     */
+
+    while (dijkstraHeap -> deleteMin(nullptr, nullptr, &removedVertex) != 1) {
+        removedVertex -> known = true;
+        for (vertex::edge e : removedVertex -> adjacencyList) {
+            if (!e.next -> known && (e.cost + removedVertex -> distance) < (e.next -> distance)) {
+                e.next -> distance = e.cost + removedVertex -> distance;
+                dijkstraHeap -> setKey(e.next -> id, e.cost + removedVertex -> distance);
+                e.next -> previous = removedVertex;
+            }
+        }
+    }
+}
+
+/** writeToFile(): Writes the output of Dijkstra's algorithm to specified
+ *  output file.
+ *
+ *  @param {string} startID - The ID of the starting vertex.
+ *  @param {ofstream&} outFile - The file to output to.
+ */
+
+void graph::writeToFile(std::string startID, std::ofstream &outFile) {
+    string toWrite = "";
+    vertex thisVertex;
+    string path = "";
+
+    for (vertex v : data) {
+        thisVertex = v;
+        path = v.id;
+
+        toWrite += v.id + ": ";
+
+        if (v.distance == INT16_MAX)
+            toWrite += "NO PATH\n";
+
+        else {
+            toWrite += to_string(v.distance) + " [";
+
+            while (thisVertex.id != startID) {
+                thisVertex = *thisVertex.previous;
+                path = thisVertex.id + ", " + path;
+            }
+
+            toWrite += path + "]\n";
+        }
+    }
+
+    outFile << toWrite;
+
+    outFile.close();
 }
