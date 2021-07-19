@@ -9,6 +9,7 @@
 #include <string>
 #include <list>
 #include <fstream>
+#include <iostream>
 #include "hash.h"
 #include "heap.h"
 #include "graph.h"
@@ -42,7 +43,10 @@ void graph::readFile(ifstream& inFile) {
             pos = read.find(" ");
         }
 
+        processed.push_back(read.substr(0, read.find("\r")));
+
         insert(processed);
+        processed.clear();
     }
 
     inFile.close();
@@ -57,8 +61,6 @@ void graph::insert(vector<string> processedLine) {
     vertex *start;
     vertex *end;
     vertex::edge startToEnd{};
-    bool v1;
-    bool v2;
 
     /** For loop that runs twice, for each vertex provided in each line
      *  of the input file. Initializes a new vertex if vertex is not
@@ -71,10 +73,11 @@ void graph::insert(vector<string> processedLine) {
          */
 
         if (!mapping -> contains(processedLine[i])) {
-            vertex *temp;
+            vertex *temp = new vertex;
             temp -> id = processedLine[i];
             temp -> known = false;
             temp -> distance = INT16_MAX;
+            temp -> adjacencyList = {};
             data.push_back(*temp);
             mapping -> insert(processedLine[i], temp);
         }
@@ -93,18 +96,15 @@ void graph::insert(vector<string> processedLine) {
         }
     }
 
-    /** Check that both vertices exist using the getPointer() function,
+    /** Check that both vertices exist using the contains() function,
      *  then insert a new edge.
      */
 
-    mapping -> getPointer(processedLine[0], reinterpret_cast<bool *>(v1));
-    mapping -> getPointer(processedLine[0], reinterpret_cast<bool *>(v2));
-
-    if (v1 && v2) {
+    if (mapping -> contains(processedLine[0]) && mapping -> contains(processedLine[1])) {
         startToEnd.next = end;
         startToEnd.cost = stoi(processedLine[2]);
         start -> adjacencyList.push_back(startToEnd);
-    }
+   }
 
 }
 
@@ -121,6 +121,9 @@ void graph::dijkstra(string &startID) {
 
     vertex *removedVertex;
     heap *dijkstraHeap = new heap(data.size());
+    vertex *start = static_cast<vertex *>(mapping->getPointer(startID));
+    start -> distance = 0;
+    start -> previous = start;
 
     /** Load the heap with all the vertices stored in the list
      *  in the graph.

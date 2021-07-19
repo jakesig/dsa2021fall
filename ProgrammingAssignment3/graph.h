@@ -83,7 +83,7 @@ class graph {
              *  previous - Pointer to the previous vertex.
              */
 
-            std::list<edge> adjacencyList;
+            std::vector<edge> adjacencyList;
             bool known;
             int distance;
             std::string id;
