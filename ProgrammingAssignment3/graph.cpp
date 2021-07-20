@@ -195,7 +195,7 @@ void graph::writeToFile(std::string startID, std::ofstream &outFile) {
             toWrite += "NO PATH\n";
 
         /** Otherwise, determine shortest path (and distance)
-         *  and write that.
+         *  and write the sequence of vertices.
          */
 
         else {
