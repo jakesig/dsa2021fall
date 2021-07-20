@@ -1,5 +1,5 @@
 main.exe: main.o graph.o heap.o hash.o
-	g++ -o main.exe main.o heap.o hash.o
+	g++ -o main.exe main.o graph.o heap.o hash.o
 
 main.o: main.cpp graph.h heap.h hash.h
 	g++ -c main.cpp
