@@ -44,8 +44,5 @@ int main() {
     cout << "Output";
     outFile.open(getFileName());
     g -> writeToFile(start, outFile);
-
-
-
 }
 

@@ -7,9 +7,6 @@
  */
 
 #include <string>
-#include <list>
-#include <fstream>
-#include <iostream>
 #include "hash.h"
 #include "heap.h"
 #include "graph.h"
@@ -36,6 +33,12 @@ void graph::readFile(ifstream& inFile) {
     while (getline(inFile, read)) {
         int pos = read.find(" ");
 
+        /** Break each line into three components using the processed vector.
+         *  processed[0] will store the starting vertex, processed[1] will store
+         *  the ending vertex, and processed[2] will store the distance between
+         *  the two.
+         */
+        
         while (pos < read.length()) {
             component = read.substr(0, pos);
             processed.push_back(component);
@@ -45,67 +48,65 @@ void graph::readFile(ifstream& inFile) {
 
         processed.push_back(read.substr(0, read.find("\r")));
 
-        insert(processed);
+        /** Insert an edge into the graph using the two vertices and distance
+         *  stored in the processed vector. After inserting, clear the processed
+         *  vector to repeat the tokenization.
+         */
+
+        insert(processed[0], processed[1], processed[2]);
         processed.clear();
     }
 
     inFile.close();
 }
 
-/** insert(): Inserts edge using the two vertices and a distance stored in a vector.
+/** insert(): Inserts an edge using the two vertices and a distance.
  *
- *  @param {vector<string>} processedLine - The information of the edge to be inserted.
+ *  @param {string} v1 - The starting vertex.
+ *  @param {string} v2 - The ending vertex.
+ *  @param {string} distance - The distance.
  */
 
-void graph::insert(vector<string> processedLine) {
-    vertex *start;
-    vertex *end;
+void graph::insert(string v1, string v2, string distance) {
+
+    /** The new vertices, and the new edge.
+     */
+
+    vertex start, end;
     vertex::edge startToEnd{};
 
-    /** For loop that runs twice, for each vertex provided in each line
-     *  of the input file. Initializes a new vertex if vertex is not
-     *  already in the hash table. Inserts an edge if both vertices exist.
+    /** Initialize a new starting vertex if it is not in the hash table.
      */
 
-    for (int i = 0; i < 2; ++i) {
-
-        /** Initialize a new vertex if it is not in the hash table.
-         */
-
-        if (!mapping -> contains(processedLine[i])) {
-            vertex *temp = new vertex;
-            temp -> id = processedLine[i];
-            temp -> known = false;
-            temp -> distance = INT16_MAX;
-            temp -> adjacencyList = {};
-            data.push_back(*temp);
-            mapping -> insert(processedLine[i], temp);
-        }
-
-        else {
-            auto *temp = (vertex *) mapping -> getPointer(processedLine[i]);
-
-            /** The first run is for the starting vertex, and the second run
-             *  is for the ending vertex. So set them accordingly.
-             */
-
-            if (i == 0)
-                start = temp;
-            if (i == 1)
-                end = temp;
-        }
+    if (!mapping -> contains(v1)) {
+        start.id = v1;
+        start.distance = INT16_MAX;
+        data.push_back(start);
+        mapping -> insert(v1, &data.back());
     }
 
-    /** Check that both vertices exist using the contains() function,
-     *  then insert a new edge.
+    /** Initialize a new end vertex if it is not in the hash table.
      */
 
-    if (mapping -> contains(processedLine[0]) && mapping -> contains(processedLine[1])) {
-        startToEnd.next = end;
-        startToEnd.cost = stoi(processedLine[2]);
-        start -> adjacencyList.push_back(startToEnd);
-   }
+    if (!mapping -> contains(v2)) {
+        end.id = v2;
+        end.distance = INT16_MAX;
+        data.push_back(end);
+        mapping -> insert(v2, &data.back());
+    }
 
+    /** Obtain pointers to the new vertices.
+     */
+
+    auto *pv1 = static_cast<vertex *> (mapping -> getPointer(v1));
+    auto *pv2 = static_cast<vertex *> (mapping -> getPointer(v2));
+
+    /** Create edge from new vertices.
+     */
+
+    startToEnd.next = pv2;
+    startToEnd.cost = stoi(distance);
+    pv1 -> adjacencyList.push_back(startToEnd);
 }
 
 /** dijkstra(): Performs Dijkstra's algorithm given a starting vertex.
@@ -114,29 +115,34 @@ void graph::insert(vector<string> processedLine) {
  */
 
 void graph::dijkstra(string &startID) {
-
-    /** A variable that keeps track of the vertex being removed from the heap along with
-     *  the heap itself.
-     */
-
     vertex *removedVertex;
     heap *dijkstraHeap = new heap(data.size());
-    vertex *start = static_cast<vertex *>(mapping->getPointer(startID));
+
+    /** Important to change the distance in the start vertex to 0, since
+     *  the node you're starting from doesn't have any distance to the
+     *  node you're starting from.
+     */
+
+    auto *start = static_cast<vertex *> (mapping -> getPointer(startID));
     start -> distance = 0;
     start -> previous = start;
 
-    /** Load the heap with all the vertices stored in the list
-     *  in the graph.
+    /** Load the heap with all the vertices stored in the list in the graph.
      */
 
-    for (vertex v : data)
-        dijkstraHeap -> insert(v.id, v.distance, &v);
+    for (auto &it : data)
+        dijkstraHeap -> insert(it.id, it.distance, &it);
 
     /** Constantly deleteMin from the heap, checking if there is a smaller distance.
      *  If there is, alter the distance of the next vertex accordingly.
      */
 
     while (dijkstraHeap -> deleteMin(nullptr, nullptr, &removedVertex) != 1) {
+
+        /** The vertex taken off the heap is now known, so change the known variable
+         *  to true to prevent any further alteration of the vertex.
+         */
+
         removedVertex -> known = true;
         for (vertex::edge e : removedVertex -> adjacencyList) {
             if (!e.next -> known && (e.cost + removedVertex -> distance) < (e.next -> distance)) {
@@ -156,18 +162,33 @@ void graph::dijkstra(string &startID) {
  */
 
 void graph::writeToFile(std::string startID, std::ofstream &outFile) {
-    string toWrite = "";
+    string toWrite;
+    string path;
     vertex thisVertex;
-    string path = "";
 
-    for (vertex v : data) {
+    /** Parse through each vertex in data. Keep track of the shortest
+     *  path using the previous variable in each vertex.
+     */
+
+    for (const vertex &v : data) {
         thisVertex = v;
         path = v.id;
 
+        /** Start by writing the ID of the vertex.
+         */
+
         toWrite += v.id + ": ";
+
+        /** If the distance was not changed from infinity,
+         *  then write "NO PATH".
+         */
 
         if (v.distance == INT16_MAX)
             toWrite += "NO PATH\n";
+
+        /** Otherwise, determine shortest path (and distance)
+         *  and write that.
+         */
 
         else {
             toWrite += to_string(v.distance) + " [";

@@ -31,12 +31,14 @@ class graph {
 
         void readFile(std::ifstream& inFile);
 
-        /** insert(): Inserts edge using the two vertices and a distance stored in a vector.
+        /** insert(): Inserts an edge using the two vertices and a distance.
          *
-         *  @param {vector<string>} processedLine - The information of the edge to be inserted.
+         *  @param {string} v1 - The starting vertex.
+         *  @param {string} v2 - The ending vertex.
+         *  @param {string} distance - The distance.
          */
 
-        void insert(std::vector<std::string> processedLine);
+        void insert(std::string v1, std::string v2, std::string distance);
 
         /** dijkstra(): Performs Dijkstra's algorithm given a starting vertex.
          *
