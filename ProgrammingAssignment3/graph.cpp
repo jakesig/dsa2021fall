@@ -146,6 +146,12 @@ void graph::dijkstra(string &startID) {
          */
 
         removedVertex -> known = true;
+
+        /** Now parse through the adjacency list, looking for unknown vertices and shorter
+         *  distances. Keep track of the previous vertex by using the previous variable,
+         *  so a path can be figured out later.
+         */
+
         for (vertex::edge e : removedVertex -> adjacencyList) {
             if (!e.next -> known && (e.cost + removedVertex -> distance) < (e.next -> distance)) {
                 e.next -> distance = e.cost + removedVertex -> distance;
