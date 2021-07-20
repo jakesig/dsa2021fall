@@ -3,7 +3,9 @@
  *  Professor Sable
  *  main.cpp
  *
- *  Description goes here.
+ *  This code runs Dijkstra's algorithm,
+ *  using all the code in the graph.h and
+ *  graph.cpp files.
  */
 
 #include <string>

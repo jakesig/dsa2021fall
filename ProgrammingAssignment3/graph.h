@@ -3,7 +3,9 @@
  *  Professor Sable
  *  graph.h
  *
- *  Description goes here.
+ *  This code implements a graph and Dijkstra's algorithm,
+ *  containing all the class information and functions to
+ *  be implemented in the graph.cpp file.
  */
 
 #ifndef _GRAPH_H

@@ -3,7 +3,9 @@
  *  Professor Sable
  *  graph.cpp
  *
- *  Description goes here.
+ *  This code implements a graph and Dijkstra's algorithm,
+ *  containing all the implemented functions from the
+ *  graph.h file.
  */
 
 #include <string>
