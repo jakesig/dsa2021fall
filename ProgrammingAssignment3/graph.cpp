@@ -33,7 +33,7 @@ void graph::readFile(ifstream& inFile) {
     vector<string> processed;
 
     while (getline(inFile, read)) {
-        int pos = read.find(" ");
+        int pos = read.find(' ');
 
         /** Break each line into three components using the processed vector.
          *  processed[0] will store the starting vertex, processed[1] will store
@@ -45,10 +45,10 @@ void graph::readFile(ifstream& inFile) {
             component = read.substr(0, pos);
             processed.push_back(component);
             read.erase(0, pos + 1);
-            pos = read.find(" ");
+            pos = read.find(' ');
         }
 
-        processed.push_back(read.substr(0, read.find("\r")));
+        processed.push_back(read.substr(0, read.find('\r')));
 
         /** Insert an edge into the graph using the two vertices and distance
          *  stored in the processed vector. After inserting, clear the processed
