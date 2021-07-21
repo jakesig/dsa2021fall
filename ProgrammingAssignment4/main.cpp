@@ -12,9 +12,12 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include "isMerge.h"
+#include "merge.h"
 
 using namespace std;
+
+string getFileName();
+void readFile(ifstream& inFile, ofstream& outFile);
 
 /** getFileName(): Returns file name that the user inputs.
  *
@@ -27,6 +30,12 @@ string getFileName() {
     getline(cin,fileDir);
     return fileDir;
 }
+
+/** readFile(): Checks given text file for merges as specified in program description.
+ *
+ *  @param inFile - File containing words for merges.
+ *  @param outFile - File to output results to.
+ */
 
 void readFile(ifstream& inFile, ofstream& outFile) {
     string read, component;
@@ -44,17 +53,24 @@ void readFile(ifstream& inFile, ofstream& outFile) {
             getline(inFile, read);
         }
 
+        /** If it's a merge, write to the output file the merged string
+         *  with the characters from the first string as uppercase.
+         */
+
         if (isMergeDynamic(processed[0], processed[1], processed[2]))
-            cout << "merge\n";
+            outFile << outputMerge(processed[0], processed[1], processed[2]) << "\n";
+
+        /** Otherwise, write to the output file that it is not a merge.
+         */
+
         else
-            cout << "no merge\n";
+            outFile << "*** NOT A MERGE ***\n";
 
         processed.clear();
-
     }
 
     inFile.close();
-//    outFile.close();
+    outFile.close();
 }
 
 
@@ -67,8 +83,8 @@ int main() {
 
     cout << "Input";
     inFile.open(getFileName());
-//    cout << "Output";
-//    outFile.open(getFileName());
+    cout << "Output";
+    outFile.open(getFileName());
 
     readFile(inFile, outFile);
 }

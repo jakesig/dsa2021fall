@@ -9,9 +9,13 @@
  */
 
 #include <string>
-#include "isMerge.h"
+#include <algorithm>
+#include "merge.h"
 
 using namespace std;
+
+/** Global matrix used for the dynamic programming solution.
+ */
 
 bool matrix[1000][1000];
 
@@ -127,4 +131,47 @@ bool isMergeDynamic(const string& str1, const string& str2, const string& str3) 
      */
 
     return matrix[str1.size()][str2.size()];
+}
+
+/** outputMerge(): Outputs the merged string (str3), if it is a valid merge (str3) with all characters
+ *  from str1 converted to uppercase.
+ *
+ *  @param {string} str1 - First string being merged.
+ *  @param {string} str2 - Second string being merged.
+ *  @param {string} str3 - The string containing the merge of the two prior strings.
+ *  @return {string} - The altered string.
+ */
+
+string outputMerge(const string& str1, const string& str2, const string& str3) {
+
+    /** Assign two variables corresponding to the sizes of the first two strings.
+     *  These are used in a while loop and will be decremented.
+     */
+
+    int str1size = str1.size();
+    int str2size = str2.size();
+
+    /** Create a string that stores str3 as lowercase (toReturn), and a string that stores
+     *  str3 as uppercase (str3upper). toReturn will be altered accordingly and will end
+     *  up being the string returned.
+     */
+
+    string toReturn = str3;
+    string str3upper = str3;
+    transform(str3upper.begin(), str3upper.end(), str3upper.begin(), [](char c){ return toupper(c); });
+
+    /** While loop.
+     */
+
+    while (str1size > 0 && str2size >= 0) {
+        if (matrix[str1size - 1][str2size]){
+            toReturn[str1size + str2size - 1] = str3upper[str1size + str2size - 1];
+            str1size--;
+        }
+
+        else
+            str2size--;
+    }
+
+    return toReturn;
 }
