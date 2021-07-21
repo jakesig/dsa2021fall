@@ -32,7 +32,9 @@ void readFile(ifstream& inFile, ofstream& outFile) {
     string read, component;
     vector<string> processed;
 
-    while (getline(inFile, read)) {
+    getline(inFile, read);
+
+    while (!inFile.eof()) {
 
         /** Break each line into three components using the processed vector.
          */
@@ -42,15 +44,17 @@ void readFile(ifstream& inFile, ofstream& outFile) {
             getline(inFile, read);
         }
 
-        if (isMergeRecursive(processed[0], processed[1], processed[2]))
+        if (isMergeDynamic(processed[0], processed[1], processed[2]))
             cout << "merge\n";
         else
             cout << "no merge\n";
 
+        processed.clear();
+
     }
 
     inFile.close();
-    //outFile.close();
+//    outFile.close();
 }
 
 

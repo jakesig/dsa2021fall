@@ -14,10 +14,8 @@
 
 #include <string>
 
-//int matrix[1000][1000];
-
 bool isMergeRecursive(const std::string& str1, const std::string& str2, const std::string& str3);
 
-bool isMergeDynamic(std::string str1, std::string str2, std::string str3);
+bool isMergeDynamic(const std::string& str1, const std::string& str2, const std::string& str3);
 
 #endif //_ISMERGE_H
