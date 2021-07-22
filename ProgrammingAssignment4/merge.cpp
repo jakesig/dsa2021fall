@@ -1,11 +1,11 @@
 /** Jacob Sigman
  *  Programming Assignment 4
  *  Professor Sable
- *  isMerge.cpp
+ *  merge.cpp
  *
  *  This file contains the recursive and dynamic
  *  implementation for determining if a string is a
- *  merge of two other strings from the isMerge.h file.
+ *  merge of two other strings from the merge.h file.
  */
 
 #include <string>

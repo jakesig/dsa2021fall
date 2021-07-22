@@ -1,16 +1,16 @@
 /** Jacob Sigman
  *  Programming Assignment 4
  *  Professor Sable
- *  isMerge.h
+ *  merge.h
  *
  *  This file contains functions for a recursive
  *  and dynamic implementation for determining if a string
  *  is a merge of two other strings. These functions are
- *  implemented in the isMerge.cpp file.
+ *  implemented in the merge.cpp file.
  */
 
-#ifndef _ISMERGE_H
-#define _ISMERGE_H
+#ifndef _MERGE_H
+#define _MERGE_H
 
 #include <string>
 
@@ -48,4 +48,4 @@ bool isMergeDynamic(const string& str1, const string& str2, const string& str3);
 
 string outputMerge(const string& str1, const string& str2, const string& str3);
 
-#endif //_ISMERGE_H
+#endif //_MERGE_H
