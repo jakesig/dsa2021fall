@@ -13,6 +13,7 @@
 Implements a hash table class. Then, uses this implementation to read a provided "dictionary" text file and spell check a "document" text file. 
 
 #### Directory Information `Programming Assignment 1/`
+**`Programming Assignment 1.pdf`**: Assignment description   
 **`hash.h`**: Hash Table header file   
 **`hash.cpp`**: Hash Table CPP file   
 **`spellcheck.cpp`**: Spellchecker code     
@@ -26,6 +27,7 @@ Implements a hash table class. Then, uses this implementation to read a provided
 Implements a Binary Min Heap, providing programmers with the functionality of a priority queue using binary heap implementation. Each item inserted will specify a unique string ID, an integer key, and an optional pointer. Uses hash table from Programming Assignment 1.
 
 #### Directory Information `Programming Assignment 2/`
+**`Programming Assignment 2.pdf`**: Assignment description   
 **`hash.h`**: Hash Table header file   
 **`hash.cpp`**: Hash Table CPP file   
 **`heap.h`**: Heap header file   
@@ -37,6 +39,7 @@ Implements a Binary Min Heap, providing programmers with the functionality of a 
 Implements Dijkstra's algorithm using a graph. The objective is to solve the single-source shortest-path problem, determining the shortest path in a specified graph from a specified starting vertex to each other vertex in the graph. Uses binary heap from Programming Assignment 2.
 
 #### Directory Information `Programming Assignment 3/`
+**`Programming Assignment 3.pdf`**: Assignment description   
 **`hash.h`**: Hash Table header file   
 **`hash.cpp`**: Hash Table CPP file   
 **`heap.h`**: Heap header file   
@@ -54,6 +57,7 @@ Implements Dijkstra's algorithm using a graph. The objective is to solve the sin
 A problem from the 1998 regional ACM Programming Contest that defines a "merge" of two strings as a third string containing all the characters from each of the original two strings mixed together. This program determines if a string is a valid merge of two other strings. 
 
 #### Directory Information `Programming Assignment 4/`
+**`Programming Assignment 4.pdf`**: Assignment description   
 **`merge.h`**: Header file for merge method(s)   
 **`merge.cpp`**: CPP file for merge method(s)   
 **`main.cpp`**: File used for running merge method(s)   
