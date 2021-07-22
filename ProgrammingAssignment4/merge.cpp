@@ -160,18 +160,45 @@ string outputMerge(const string& str1, const string& str2, const string& str3) {
     string str3upper = str3;
     transform(str3upper.begin(), str3upper.end(), str3upper.begin(), [](char c){ return toupper(c); });
 
-    /** While loop.
+    /** While loop that parses through the matrix, looking for characters from str1
+     *  and making them uppercase.
      */
 
-    while (str1size > 0 && str2size >= 0) {
-        if (matrix[str1size - 1][str2size]){
+    while (str1size >= 0 && str2size >= 0) {
+
+        /** Case 1: If the character is from str2, decrement str2. This case
+         *  has to go first in case of any common characters amongst str1
+         *  and str2.
+         */
+
+        if (matrix[str1size][str2size - 1])
+            str2size--;
+
+        /** Case 2: If the character is from str1, change the character
+         *  to uppercase, then decrement str1.
+         */
+
+        else if (matrix[str1size - 1][str2size]){
             toReturn[str1size + str2size - 1] = str3upper[str1size + str2size - 1];
             str1size--;
         }
 
-        else
-            str2size--;
+        /** Case 3: There's nothing left to be checked, since str2 and str1 both
+         *  don't have the character. So just loop through the remaining characters to
+         *  be checked and make them uppercase. Since that's the rest of them, break
+         *  out of the loop immediately after.
+         */
+
+        else {
+            for (int i = 0; i < str1size; ++i)
+                toReturn[i] = str3upper[i];
+
+            break;
+        }
     }
+
+    /** Return the string that's been modified.
+     */
 
     return toReturn;
 }
