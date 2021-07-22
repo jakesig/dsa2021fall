@@ -46,6 +46,7 @@ Implements Dijkstra's algorithm using a graph. The objective is to solve the sin
 **`main.cpp`**: File used for running algorithm   
 **`input.txt`**: Input file   
 **`out.txt`**: Output file    
+**`sample_out.txt`**: Expected output file   
 **`Makefile`**: Makefile   
 
 ### Programming Assignment 4
@@ -57,4 +58,5 @@ A problem from the 1998 regional ACM Programming Contest that defines a "merge" 
 **`main.cpp`**: File used for running merge method(s)   
 **`input.txt`**: Input file   
 **`out.txt`**: Output file    
+**`sample_out.txt`**: Expected output file   
 **`Makefile`**: Makefile   
