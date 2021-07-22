@@ -47,7 +47,7 @@ Implements Dijkstra's algorithm using a graph. The objective is to solve the sin
 **`input.txt`**: Input file   
 **`out.txt`**: Output file    
 **`sample_out_v1.txt`**: Expected output file if v1 is provided   
-**`sample_out_v5.txt`**: Expected output file if v5 is provided
+**`sample_out_v5.txt`**: Expected output file if v5 is provided   
 **`Makefile`**: Makefile   
 
 ### Programming Assignment 4
