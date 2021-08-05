@@ -14,6 +14,11 @@
 
 using namespace std;
 
+/** getFileName(): Returns file name that the user inputs.
+ *
+ *  @return {string} - The name of the file that the user inputted.
+ */
+
 string getFileName() {
     string fileDir;
     cout << " file name: ";
