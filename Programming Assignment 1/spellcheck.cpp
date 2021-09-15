@@ -52,6 +52,8 @@ vector<string> split(string str, string delim) {
          */
 
         for (char c : word) {
+            if (c >=0 && c <= 9)
+                continue;
             if (c != '-' && c != '\'' && !(c >= 97 && c <= 122) && !(c >= 48 && c<= 57))
                 word = word.substr(0, word.find(c));
         }
