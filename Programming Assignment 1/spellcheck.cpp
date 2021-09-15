@@ -44,6 +44,7 @@ vector<string> split(string str, string delim) {
     vector<string> split;
     string word;
     int pos = str.find(delim);
+    bool hasDigit = false;
 
     while (pos < str.length()) {
         word = str.substr(0, pos);
@@ -52,18 +53,24 @@ vector<string> split(string str, string delim) {
          */
 
         for (char c : word) {
-            if (c >=0 && c <= 9)
-                continue;
-            if (c != '-' && c != '\'' && !(c >= 97 && c <= 122) && !(c >= 48 && c<= 57))
+            if (isdigit(c)) {
+                hasDigit = true;
+                break;
+            }
+
+            if (c != '-' && c != '\'' && !isalnum(c))
                 word = word.substr(0, word.find(c));
         }
 
         /** Push word onto vector, then remove the respective part of the string.
          */
 
-        split.push_back(word);
+        if (!hasDigit)
+            split.push_back(word);
+
         str.erase(0, pos + 1);
         pos = str.find(delim);
+        hasDigit = false;
     }
 
     return split;
