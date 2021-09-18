@@ -36,41 +36,26 @@ string getFileName() {
 /** split(): Returns a vector of strings divided by provided delimiter.
  *
  *  @param {string} str - The string to split up.
- *  @param {string} delim - The delimiter to split the string up by.
  *  @return {vector<string>} - The vector output of the divided string.
  */
 
-vector<string> split(string str, string delim) {
+vector<string> split(string str) {
     vector<string> split;
-    string word;
-    int pos = str.find(delim);
-    bool hasDigit = false;
+    string word = "";
 
-    while (pos < str.length()) {
-        word = str.substr(0, pos);
+    /** Parse the line, removing any characters considered word separators.
+    */
 
-        /** Parse the word, removing any characters considered word separators.
-         */
+    for (char c : str) {
 
-        for (char c : word) {
-            if (isdigit(c)) {
-                hasDigit = true;
-                break;
-            }
+        if ((isalpha(c) || c == '\'' || c == '-'))
+            word += c;
 
-            if (c != '-' && c != '\'' && !isalnum(c))
-                word = word.substr(0, word.find(c));
+        else if (!isdigit(c) && !word.empty()) {
+            split.push_back(word);
+            word.clear();
         }
 
-        /** Push word onto vector, then remove the respective part of the string.
-         */
-
-        if (!hasDigit)
-            split.push_back(word);
-
-        str.erase(0, pos + 1);
-        pos = str.find(delim);
-        hasDigit = false;
     }
 
     return split;
@@ -103,14 +88,17 @@ void readDictionary(ifstream& dictFile, hashTable *dict) {
 void spellCheck(ifstream& inFile, ofstream& outFile, hashTable *dict) {
     string read;
     vector<string> processed;
+    vector<string> words;
     int line = 0;
 
     while (getline(inFile, read)) {
         line++;
         if (read.empty())
             continue;
+
         transform(read.begin(), read.end(), read.begin(), [](char c){ return tolower(c); });
-        vector<string> words = split(read + " ", " ");
+        words = split(read + " ");
+
         for (const string& word : words) {
             if (word.length() > 20)
                 outFile << "Long word at line " << line << ", starts: " << word.substr(0,20) << "\n";
