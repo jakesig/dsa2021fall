@@ -33,7 +33,8 @@ string getFileName() {
     return fileDir;
 }
 
-/** split(): Returns a vector of strings divided by provided delimiter.
+/** split(): Returns a vector of strings divided by specified
+ *  characters in assignment description.
  *
  *  @param {string} str - The string to split up.
  *  @return {vector<string>} - The vector output of the divided string.
