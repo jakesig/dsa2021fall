@@ -50,7 +50,7 @@ vector<string> split(string str) {
 
     for (char c : str) {
 
-        if ((isalpha(c) || c == '\'' || c == '-'))
+        if (isalpha(c) || c == '\'' || c == '-')
             word += c;
 
         else if (!isdigit(c) && !word.empty()) {
