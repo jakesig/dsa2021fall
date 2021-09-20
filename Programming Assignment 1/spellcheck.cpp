@@ -43,6 +43,7 @@ string getFileName() {
 vector<string> split(string str) {
     vector<string> split;
     string word = "";
+    bool hasDigit = false;
 
     /** Parse the line, removing any characters considered word separators.
     */
@@ -53,9 +54,14 @@ vector<string> split(string str) {
             word += c;
 
         else if (!isdigit(c) && !word.empty()) {
-            split.push_back(word);
+            if (!hasDigit)
+                split.push_back(word);
             word.clear();
+            hasDigit = false;
         }
+
+        if (isdigit(c))
+            hasDigit = true;
 
     }
 
