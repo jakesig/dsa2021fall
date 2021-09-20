@@ -53,12 +53,13 @@ vector<string> split(string str) {
         if (isalpha(c) || c == '\'' || c == '-')
             word += c;
 
-        else if (!isdigit(c) && !word.empty()) {
-            if (!hasDigit)
+        else if (!isdigit(c)) {
+            if (!hasDigit && !word.empty())
                 split.push_back(word);
             word.clear();
             hasDigit = false;
         }
+
 
         if (isdigit(c))
             hasDigit = true;
