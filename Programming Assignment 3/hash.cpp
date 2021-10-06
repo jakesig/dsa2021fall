@@ -42,6 +42,14 @@ hashTable::hashTable(int size) {
 
 int hashTable::insert(const std::string &key, void *pv) {
 
+    /** If the hash table is at larger than half capacity,
+     *  rehash, and if that fails, return 2.
+     */
+
+    if (filled * 2 >= capacity)
+        if (!rehash())
+            return 2;
+
     /** Determine position to place key.
      *  Then, check if this key is in the hash table.
      */
@@ -50,14 +58,6 @@ int hashTable::insert(const std::string &key, void *pv) {
 
     if (contains(key))
         return 1;
-
-    /** If the hash table is at larger than half capacity,
-     *  rehash, and if that fails, return 2.
-     */
-
-    if (filled * 2 >= capacity)
-        if (!rehash())
-            return 2;
 
     /** Find an open spot using linear probing if necessary.
      *  If the end is reached, set the position to 0 and continue probing.
@@ -182,7 +182,7 @@ int hashTable::findPos(const std::string &key) {
     int position = hash(key);
 
     while (data[position].isOccupied)
-        if (data[position].key == key)
+        if (data[position].key == key && !data[position].isDeleted)
             return position;
         else
             if (++position == capacity)
