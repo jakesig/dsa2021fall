@@ -221,45 +221,30 @@ void heap::percolateUp(int posCur) {
  */
 
 void heap::percolateDown(int posCur) {
-    int pos;
-    while (posCur*2 <= filled) {
 
-        /** Determine whether the smaller child is the left child
-         *  (2 * posCur) or the right child ((2 * posCur) +1),
-         *  since this begins at the top of the heap.
-         */
+    /** Variable declarations, one to keep track of the child node, and one
+     *  to keep track of the removed node.
+     */
 
-        if (data[posCur * 2].key < data[(posCur * 2) + 1].key)
-            pos = posCur * 2;
+    node hole = data[posCur];
 
-        else if (data[posCur * 2].key > data[(posCur * 2) + 1].key)
-            pos = (posCur * 2) + 1;
+    for(int pos; posCur*2 <= filled; posCur = pos) {
+        pos = posCur*2;
 
-        /** If there is no right child, just use the left child.
-         */
+        if (pos != filled && (data[pos+1].key < data[pos].key))
+            ++pos;
 
-        else if ((posCur * 2) + 1 > filled)
-            pos = posCur * 2;
-
-        /** If the smaller child node is larger than the parent node,
-         *  swap the two nodes, then add the swapped node to mapping.
-         */
-
-        if (data[posCur].key > data[pos].key) {
-            node temp = data[posCur];
+        if (data[pos].key < hole.key) {
             data[posCur] = data[pos];
-            data[pos] = temp;
             mapping.setPointer(data[posCur].id, &data[posCur]);
-            posCur = pos;
         }
-
-        /** Otherwise, there is no need to continue percolating.
-         */
 
         else
             break;
-
     }
+
+    data[posCur] = hole;
+    mapping.setPointer(data[posCur].id, &data[posCur]);
 }
 
 /** getPos(): Gets the position of a node.
