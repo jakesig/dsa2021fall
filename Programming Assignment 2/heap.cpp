@@ -127,13 +127,13 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     if (ppData != nullptr)
         *(static_cast<void **> (ppData)) = min.pData;
 
-    /** Set the root node to the last leaf, then percolate down.
-     *  After that, remove the minimum node from mapping.
+    /** Remove the minimum node from mapping.
+     *  Set the root node to the last leaf, then percolate down.
      */
 
+    mapping.remove(min.id);
     data[1] = data[filled--];
     percolateDown(1);
-    mapping.remove(min.id);
 
     return 0;
 }
@@ -168,10 +168,11 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
         *(static_cast<void **> (ppData)) = pn -> pData;
 
     /** Set the node to the last leaf, storing the old value to know which
-     *  direction to percolate.
+     *  direction to percolate. Then, remove the key from mapping.
      */
 
     int old = pn -> key;
+    mapping.remove(id);
     *pn = data[filled--];
 
     if (old > pn -> key)
