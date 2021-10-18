@@ -96,7 +96,7 @@ class heap {
          */
 
         int capacity;
-        int filled{};
+        int filled;
         std::vector<node> data;
         hashTable mapping;
 

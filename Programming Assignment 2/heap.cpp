@@ -206,6 +206,7 @@ void heap::percolateUp(int posCur) {
             data[posCur] = temp;
             mapping.setPointer(data[posCur].id, &data[posCur]);
             posCur/=2;
+            mapping.setPointer(data[posCur].id, &data[posCur]);
         }
 
         /** Otherwise, there is no need to continue percolating.
