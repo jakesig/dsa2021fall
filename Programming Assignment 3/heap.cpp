@@ -176,7 +176,7 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     mapping.remove(id);
     *pn = data[filled--];
 
-    if (old > pn -> key){
+    if (old > pn -> key)
         percolateUp(getPos(pn));
 
     if (old < pn -> key)
