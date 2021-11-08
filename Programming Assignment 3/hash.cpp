@@ -1,5 +1,5 @@
 /** Jacob Sigman
- *  Programming Assignment 3
+ *  Programming Assignment 1
  *  Professor Sable
  *  hash.cpp
  *
@@ -149,7 +149,6 @@ bool hashTable::remove(const std::string &key) {
      *  and decrement from filled.
      */
 
-    data[position].isOccupied = false;
     data[position].isDeleted = true;
     filled--;
 
@@ -219,10 +218,9 @@ bool hashTable::rehash() {
      *  resized data vector.
      */
 
-    for (hashItem item : oldData) {
+    for (hashItem item : oldData)
         if (item.isOccupied)
             insert(item.key, item.pv);
-    }
 
     return true;
 }
