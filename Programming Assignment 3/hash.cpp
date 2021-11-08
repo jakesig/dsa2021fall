@@ -1,5 +1,5 @@
 /** Jacob Sigman
- *  Programming Assignment 1
+ *  Programming Assignment 3
  *  Professor Sable
  *  hash.cpp
  *
