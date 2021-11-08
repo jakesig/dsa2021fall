@@ -145,7 +145,7 @@ bool hashTable::remove(const std::string &key) {
     if (position == -1)
         return false;
 
-    /** Set isOccupied to false, isDeleted to true,
+    /** Set isDeleted to true,
      *  and decrement from filled.
      */
 

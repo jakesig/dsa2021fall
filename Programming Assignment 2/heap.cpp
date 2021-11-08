@@ -176,7 +176,7 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
     mapping.remove(id);
     *pn = data[filled--];
 
-    if (old > pn -> key)
+    if (old > pn -> key){
         percolateUp(getPos(pn));
 
     if (old < pn -> key)
@@ -216,6 +216,11 @@ void heap::percolateUp(int posCur) {
         else
             break;
     }
+
+    /** Set the pointer once more just in case no movement happened.
+     */
+
+    mapping.setPointer(data[posCur].id, &data[posCur]);
 }
 
 /** percolateDown(): Shift all nodes downwards to ensure the heap is a Min Heap
