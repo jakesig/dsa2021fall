@@ -1,5 +1,5 @@
 /** Jacob Sigman
- *  Programming Assignment 3
+ *  Programming Assignment 2
  *  Professor Sable
  *  heap.cpp
  *
@@ -19,6 +19,7 @@
 heap::heap(int capacity):mapping(capacity * 2) {
     data.resize(capacity + 1);
     this -> capacity = capacity;
+    filled = 0;
 }
 
 /** insert(): Inserts a new node with the specified id, string,
@@ -127,13 +128,13 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
     if (ppData != nullptr)
         *(static_cast<void **> (ppData)) = min.pData;
 
-    /** Set the root node to the last leaf, then percolate down.
-     *  After that, remove the minimum node from mapping.
+    /** Remove the minimum node from mapping.
+     *  Set the root node to the last leaf, then percolate down.
      */
 
+    mapping.remove(min.id);
     data[1] = data[filled--];
     percolateDown(1);
-    mapping.remove(min.id);
 
     return 0;
 }
@@ -168,13 +169,14 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
         *(static_cast<void **> (ppData)) = pn -> pData;
 
     /** Set the node to the last leaf, storing the old value to know which
-     *  direction to percolate.
+     *  direction to percolate. Then, remove the key from mapping.
      */
 
     int old = pn -> key;
+    mapping.remove(id);
     *pn = data[filled--];
 
-    if (old > pn -> key)
+    if (old > pn -> key){
         percolateUp(getPos(pn));
 
     if (old < pn -> key)
@@ -205,6 +207,7 @@ void heap::percolateUp(int posCur) {
             data[posCur] = temp;
             mapping.setPointer(data[posCur].id, &data[posCur]);
             posCur/=2;
+            mapping.setPointer(data[posCur].id, &data[posCur]);
         }
 
         /** Otherwise, there is no need to continue percolating.
@@ -213,6 +216,11 @@ void heap::percolateUp(int posCur) {
         else
             break;
     }
+
+    /** Set the pointer once more just in case no movement happened.
+     */
+
+    mapping.setPointer(data[posCur].id, &data[posCur]);
 }
 
 /** percolateDown(): Shift all nodes downwards to ensure the heap is a Min Heap
@@ -221,45 +229,30 @@ void heap::percolateUp(int posCur) {
  */
 
 void heap::percolateDown(int posCur) {
-    int pos;
-    while (posCur*2 <= filled) {
 
-        /** Determine whether the smaller child is the left child
-         *  (2 * posCur) or the right child ((2 * posCur) +1),
-         *  since this begins at the top of the heap.
-         */
+    /** Variable declarations, one to keep track of the child node, and one
+     *  to keep track of the removed node.
+     */
 
-        if (data[posCur * 2].key < data[(posCur * 2) + 1].key)
-            pos = posCur * 2;
+    node hole = data[posCur];
 
-        else if (data[posCur * 2].key > data[(posCur * 2) + 1].key)
-            pos = (posCur * 2) + 1;
+    for(int pos; posCur*2 <= filled; posCur = pos) {
+        pos = posCur*2;
 
-        /** If there is no right child, just use the left child.
-         */
+        if (pos != filled && (data[pos+1].key < data[pos].key))
+            ++pos;
 
-        else if ((posCur * 2) + 1 > filled)
-            pos = posCur * 2;
-
-        /** If the smaller child node is larger than the parent node,
-         *  swap the two nodes, then add the swapped node to mapping.
-         */
-
-        if (data[posCur].key > data[pos].key) {
-            node temp = data[posCur];
+        if (data[pos].key < hole.key) {
             data[posCur] = data[pos];
-            data[pos] = temp;
             mapping.setPointer(data[posCur].id, &data[posCur]);
-            posCur = pos;
         }
-
-        /** Otherwise, there is no need to continue percolating.
-         */
 
         else
             break;
-
     }
+
+    data[posCur] = hole;
+    mapping.setPointer(data[posCur].id, &data[posCur]);
 }
 
 /** getPos(): Gets the position of a node.
