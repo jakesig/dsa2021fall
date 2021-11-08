@@ -149,7 +149,6 @@ bool hashTable::remove(const std::string &key) {
      *  and decrement from filled.
      */
 
-    data[position].isOccupied = false;
     data[position].isDeleted = true;
     filled--;
 

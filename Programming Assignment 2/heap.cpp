@@ -19,6 +19,7 @@
 heap::heap(int capacity):mapping(capacity * 2) {
     data.resize(capacity + 1);
     this -> capacity = capacity;
+    filled = 0;
 }
 
 /** insert(): Inserts a new node with the specified id, string,
