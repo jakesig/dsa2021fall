@@ -111,6 +111,16 @@ void graph::insert(string v1, string v2, string distance) {
     pv1 -> adjacencyList.push_back(startToEnd);
 }
 
+/** hasVertex(): Checks if the inputted vertex is valid.
+ *
+ *  @param {string} startID - The ID of the starting vertex.
+ *  @return {bool} - true if the vertex is valid, false if it is not.
+ */
+
+bool graph::hasVertex(string &startID) {
+    return mapping->contains(startID);
+}
+
 /** dijkstra(): Performs Dijkstra's algorithm given a starting vertex.
  *
  *  @param {string} startID - The ID of the starting vertex.

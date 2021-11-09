@@ -42,6 +42,14 @@ class graph {
 
         void insert(std::string v1, std::string v2, std::string distance);
 
+        /** hasVertex(): Checks if the inputted vertex is valid.
+         *
+         *  @param {string} startID - The ID of the starting vertex.
+         *  @return {bool} - true if the vertex is valid, false if it is not.
+         */
+
+        bool hasVertex(std::string &startID);
+
         /** dijkstra(): Performs Dijkstra's algorithm given a starting vertex.
          *
          *  @param {string} startID - The ID of the starting vertex.

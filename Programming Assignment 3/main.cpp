@@ -42,6 +42,11 @@ int main() {
     cout << "Starting vertex: ";
     getline(cin, start);
 
+    while (!(g -> hasVertex(start))) {
+        cout << "Invalid vertex!\nStarting vertex: ";
+        getline(cin, start);
+    }
+
     initial = clock();
     g -> dijkstra(start);
     final = clock();
