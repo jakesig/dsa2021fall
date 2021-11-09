@@ -82,7 +82,9 @@ void graph::insert(string v1, string v2, string distance) {
 
     if (!mapping -> contains(v1)) {
         start.id = v1;
+        start.known = false;
         start.distance = INT16_MAX;
+        start.previous = nullptr;
         data.push_back(start);
         mapping -> insert(v1, &data.back());
     }
@@ -92,7 +94,9 @@ void graph::insert(string v1, string v2, string distance) {
 
     if (!mapping -> contains(v2)) {
         end.id = v2;
+        end.known = false;
         end.distance = INT16_MAX;
+        end.previous = nullptr;
         data.push_back(end);
         mapping -> insert(v2, &data.back());
     }
@@ -118,7 +122,7 @@ void graph::insert(string v1, string v2, string distance) {
  */
 
 bool graph::hasVertex(string &startID) {
-    return mapping->contains(startID);
+    return mapping -> contains(startID);
 }
 
 /** dijkstra(): Performs Dijkstra's algorithm given a starting vertex.
