@@ -17,7 +17,7 @@ using namespace std;
 /** Global matrix used for the dynamic programming solution.
  */
 
-bool matrix[1000][1000];
+bool matrix[2000][2000];
 
 /** isMergeRecursive(): Determines if a string is a merge of two other strings recursively.
  *  This method does has exponential time complexity and therefore won't be effective.
@@ -75,7 +75,14 @@ bool isMergeRecursive(const string& str1, const string& str2, const string& str3
 
 bool isMergeDynamic(const string& str1, const string& str2, const string& str3) {
 
-    /** Create two-dimensional array (1000 by 1000) of possible merges from each of the
+    /** Check that the length of the third string is the sum of the lengths of the first
+     *  two strings. If it is not, then a merge is not possible.
+     */
+
+    if (str3.length() != str1.length() + str2.length())
+        return false;
+
+    /** Create two-dimensional array (2000 by 2000) of possible merges from each of the
      *  first two strings.
      */
 
