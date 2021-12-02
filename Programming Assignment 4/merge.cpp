@@ -86,8 +86,8 @@ bool isMergeDynamic(const string& str1, const string& str2, const string& str3) 
      *  first two strings.
      */
 
-    for (int i = 0;  i < 1000; ++i) {
-        for (int j = 0; j < 1000; ++j) {
+    for (int i = 0;  i < 2000; ++i) {
+        for (int j = 0; j < 2000; ++j) {
 
             /** Case 1: If both strings are empty, set cell to true.
              *  Similar to the base case of the recursive solution.
