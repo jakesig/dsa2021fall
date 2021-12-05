@@ -79,7 +79,7 @@ bool isMergeDynamic(const string& str1, const string& str2, const string& str3) 
      *  two strings. If it is not, then a merge is not possible.
      */
 
-    if (str3.length() != str1.length() + str2.length())
+    if (str3.size() != str1.size() + str2.size())
         return false;
 
     /** Create two-dimensional array (2000 by 2000) of possible merges from each of the
